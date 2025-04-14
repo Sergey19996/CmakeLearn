@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(OLAS VERSION 1.2)
+project(OLAS VERSION 1.3)
 
 set(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR})
 
@@ -71,3 +71,10 @@ target_link_libraries(${PROJECT_NAME}  glfw ${EXTRA_LIBS})
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 install(FILES "${PROJECT_BINARY_DIR}/OLASConfig.h" DESTINATION include)
+
+include(InstallRequiredSystemLibraries)
+set(CPACK_RESOURCE_FILE_LICENSE "${CMAKE_CURRENT_SOURCE_DIR}/Licence.txt")
+set(CPACK_PACKAGE_VERSION_MAJOR "${TUTORIAL_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${TUTORIAL_VERSION_MINOR}")
+include(CPack)
+
