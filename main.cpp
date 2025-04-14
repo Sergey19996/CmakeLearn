@@ -1,8 +1,12 @@
 #include "adder.h"
 #include <iostream>
 #include <GLFW/glfw3.h>
-int main(){
+#include <OLASConfig.h>
+int main(int argc, char* argv[]){
 std::cout<<"2 + 3  = " << nearlymath::add(2,3)<<'\n'<<std::endl;
+
+std::cout<<argv[0] << " VERSION " << OLAS_VERSION_MAJOR << "."<<OLAS_VERSION_MINOR<<'\n';
+
 
 
 GLFWwindow* window;
