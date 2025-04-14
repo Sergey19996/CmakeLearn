@@ -1,1 +1,5 @@
 add_library(adder adder.cpp adder.h)
+
+#CMAKE_INSTALL_PREFIX - WAY of install
+install(TARGETS adder DESTINATION lib)
+install(FILES adder.h DESTINATION include)

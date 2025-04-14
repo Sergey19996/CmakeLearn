@@ -1,3 +1,5 @@
 @echo off
-cd out/build 
+ cd out/build
  OLAS.exe
+ cd ../../
+ 

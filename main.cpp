@@ -1,9 +1,20 @@
-#include "adder.h"
 #include <iostream>
 #include <GLFW/glfw3.h>
 #include <OLASConfig.h>
+
+#ifdef USE_ADDER
+#include <adder.h>
+#endif
+
+
 int main(int argc, char* argv[]){
-std::cout<<"2 + 3  = " << nearlymath::add(2,3)<<'\n'<<std::endl;
+
+    #ifdef USE_ADDER
+std::cout<<"using Adder lib :  2 + 3  = " << nearlymath::add(2,3)<<'\n'<<std::endl;
+#else
+std::cout << " No adder include " << std::endl;
+#endif
+
 
 std::cout<<argv[0] << " VERSION " << OLAS_VERSION_MAJOR << "."<<OLAS_VERSION_MINOR<<'\n';
 

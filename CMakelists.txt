@@ -1,18 +1,34 @@
 cmake_minimum_required(VERSION 3.13)
-project(OLAS VERSION 1.1)
+
+project(OLAS VERSION 1.2)
+
+set(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR})
+
+#adder use logic
+option(USE_ADDER "A simple library for adding two floats" ON)
+
+if(USE_ADDER)
+    add_subdirectory(Adder)
+
+    # Добавляем Adder в список библиотек и инклюдов
+    list(APPEND EXTRA_LIBS adder)
+    list(APPEND EXTRA_INCLUDES "${PROJECT_SOURCE_DIR}/Adder")
+endif()
+
 
 message(STATUS "Компилятор C++: ${CMAKE_CXX_COMPILER}")
+message(STATUS "Компилятор C: ${CMAKE_C_COMPILER}")
+
 configure_file(OLASConfig.h.in OLASConfig.h)
+
 
 add_executable(${PROJECT_NAME} main.cpp)
 
+
 target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_BINARY_DIR})
 
-add_subdirectory(external/glfw)
 
 
-set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(CMAKE_C_STANDARD_REQUIRED True)
 
 # ==============================
 #       DOWNLOAD ALL THE SUBMODULES
@@ -44,16 +60,14 @@ if(NOT EXISTS "${PROJECT_SOURCE_DIR}/external/glfw/CMakeLists.txt")
     message(FATAL_ERROR "The glfw submodules was not downloaded! GIT SUBMODULE was turned off or failed. Please update submodules and try again.")
 endif()
 
-
-
-add_subdirectory(Adder)
-
-
-
+add_subdirectory(external/glfw)
 
 target_include_directories(${PROJECT_NAME}
-PUBLIC Adder
-)
+ PRIVATE ${EXTRA_INCLUDES})
 
 
-target_link_libraries(${PROJECT_NAME} adder glfw)
+
+target_link_libraries(${PROJECT_NAME}  glfw ${EXTRA_LIBS})
+
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)
+install(FILES "${PROJECT_BINARY_DIR}/OLASConfig.h" DESTINATION include)
