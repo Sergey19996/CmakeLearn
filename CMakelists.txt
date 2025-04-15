@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 3.13)
 
+set(CMAKE_TOOLCHAIN_FILE C:/vcpkg/scripts/buildsystems/vcpkg.cmake)
+
 project(OLAS VERSION 1.3)
 
 set(CMAKE_INSTALL_PREFIX ${PROJECT_BINARY_DIR})
+
+
 
 #adder use logic
 option(USE_ADDER "A simple library for adding two floats" ON)
@@ -14,6 +18,16 @@ if(USE_ADDER)
     list(APPEND EXTRA_LIBS adder)
     list(APPEND EXTRA_INCLUDES "${PROJECT_SOURCE_DIR}/Adder")
 endif()
+
+
+
+find_package(glad CONFIG REQUIRED)
+if(glad_FOUND)
+message(STATUS " glut  found ${glad_LIBRARIES}")
+else()
+message(FATAL_ERROR "glad not found! Укажите путь через -DCMAKE_PREFIX_PATH=...")
+endif()
+
 
 
 message(STATUS "Компилятор C++: ${CMAKE_CXX_COMPILER}")
@@ -67,7 +81,7 @@ target_include_directories(${PROJECT_NAME}
 
 
 
-target_link_libraries(${PROJECT_NAME}  glfw ${EXTRA_LIBS})
+target_link_libraries(${PROJECT_NAME}  glfw ${EXTRA_LIBS}  glad::glad)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION bin)
 install(FILES "${PROJECT_BINARY_DIR}/OLASConfig.h" DESTINATION include)
